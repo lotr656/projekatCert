@@ -1,44 +1,29 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+
 import "../../styles/modal_basic.css";
 
-const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
-  const oldMarkaVozila = item.markaVozila;
-  const oldModel = item.model;
-  const oldGodiste = item.godiste;
-  const oldRegistracijskaOznaka = item.registracijskaOznaka;
-  const oldRegistracijaVaziDo = item.registracijaVaziDo;
-  const oldBoja = item.boja;
+const AddModal = ({ isOpen, setIsOpen, addData }) => {
+  //const [markaVozila] = useState(item.markaVozila);
 
-  const [markaVozila, setMarkaVozila] = useState(item.markaVozila);
-  const [model, setModel] = useState(item.model);
-  const [godiste, setGodiste] = useState(item.godiste);
-  const [registracijskaOznaka, setRegistracijskaOznaka] = useState(
-    item.registracijskaOznaka
-  );
-  const [registracijaVaziDo, setRegistracijaVaziDo] = useState(
-    item.registracijaVaziDo
-  );
-  const [boja, setBoja] = useState(item.boja);
+  const [markaVozila, setMarkaVozila] = useState();
+  const [model, setModel] = useState();
+  const [godiste, setGodiste] = useState();
+  const [registracijskaOznaka, setRegistracijskaOznaka] = useState();
+  const [registracijaVaziDo, setRegistracijaVaziDo] = useState();
+  const [boja, setBoja] = useState();
 
-  const revertChanges = () => {
-    setMarkaVozila(oldMarkaVozila);
-    setModel(oldModel);
-    setGodiste(oldGodiste);
-    setRegistracijskaOznaka(oldRegistracijskaOznaka);
-    setRegistracijaVaziDo(oldRegistracijaVaziDo);
-    setBoja(oldBoja);
+  const resetForm = () => {
+    setGodiste();
+    setMarkaVozila();
+    setModel();
+    setRegistracijskaOznaka();
+    setRegistracijaVaziDo();
+    setBoja();
   };
 
-  const cancelAction = () => {
-    revertChanges();
-    setIsOpen(false);
-    console.log("cancel");
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    editAction(
-      item.id,
+    addData(
       godiste,
       markaVozila,
       model,
@@ -46,7 +31,14 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
       registracijaVaziDo,
       boja
     );
-    alert(`Podaci uspjesno izmijenjeni za vozilo: ${markaVozila}`);
+    alert(`Vozilo uspjesno dodano u bazu`);
+    setIsOpen(false);
+    resetForm();
+  };
+
+  const cancelAction = () => {
+    setIsOpen(false);
+    console.log("cancel");
   };
   if (isOpen) {
     return (
@@ -65,28 +57,30 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
           alignItems: "center",
         }}
       >
-        <div className="modal_container">
+        <div className="modal_container_add">
           <div className="modal_header">
-            <div className="modal_header_title">
-              Izmjena podataka za vozilo: {item.markaVozila}, {item.model}
-            </div>
+            <div className="modal_header_title">Dodavanje novog vozila</div>
             <div className="modal_header_close" onClick={cancelAction}>
               X
             </div>
           </div>
-          <div className="modal_dialog">
+          <div className="modal_dialog_delete">
             <form>
               <div className="form_style">
                 <div className="form_error_row">
                   <div className="form_row">
                     <label>Marka vozila:</label>
                     <input
-                      className="input_style"
+                      className="input_style "
                       type="text"
+                      placeholder="Audi, BMW..."
                       value={markaVozila}
                       onChange={(e) => setMarkaVozila(e.target.value)}
                     />
                   </div>
+                  <span className="validation_error">
+                    Ovo polje je obavezno!
+                  </span>
                 </div>
                 <div className="form_error_row">
                   <div className="form_row">
@@ -94,6 +88,7 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
+                      placeholder="A4, Golf, F10..."
                       value={model}
                       onChange={(e) => setModel(e.target.value)}
                     />
@@ -105,6 +100,7 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="number"
+                      placeholder="Godina proizvodnje"
                       value={godiste}
                       onChange={(e) => setGodiste(e.target.value)}
                     />
@@ -116,6 +112,7 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
+                      placeholder="U formatu A00-A-000"
                       value={registracijskaOznaka}
                       onChange={(e) => setRegistracijskaOznaka(e.target.value)}
                     />
@@ -127,6 +124,7 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
+                      placeholder="U formatu 01-Januar-2000"
                       value={registracijaVaziDo}
                       onChange={(e) => setRegistracijaVaziDo(e.target.value)}
                     />
@@ -138,6 +136,7 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
+                      placeholder="Crna, Plava, Siva..."
                       value={boja}
                       onChange={(e) => setBoja(e.target.value)}
                     />
@@ -147,8 +146,8 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
             </form>
           </div>
           <div className="modal_footer">
-            <div className="modal_footer_save" onClick={handleSubmit}>
-              Sacuvaj
+            <div className="modal_footer_add" onClick={handleSubmit}>
+              Dodaj
             </div>
             <div className="modal_footer_cancel" onClick={cancelAction}>
               Ponisti
@@ -160,4 +159,4 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
   }
 };
 
-export default EditModal;
+export default AddModal;

@@ -2,7 +2,7 @@ import React from "react";
 import DeleteModal from "../modals/deleteModal";
 import { useState } from "react";
 
-const DeleteButton = ({ value }) => {
+const DeleteButton = ({ value, deleteAction }) => {
   const [deleteModal, setDeleteModal] = useState(false);
 
   return (
@@ -16,6 +16,7 @@ const DeleteButton = ({ value }) => {
           borderRadius: 8,
           paddingLeft: 5,
           paddingRight: 5,
+          cursor: "pointer",
         }}
       >
         Obrisi
@@ -24,6 +25,7 @@ const DeleteButton = ({ value }) => {
         isOpen={deleteModal}
         setIsOpen={setDeleteModal}
         item={value}
+        deleteAction={deleteAction}
       />
     </>
   );

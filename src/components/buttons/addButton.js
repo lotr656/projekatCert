@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+import AddModal from "../modals/addModal";
 
-const AddButton = () => {
-  const printClick = () => {
-    console.log("click");
-  };
+const AddButton = ({ expandData }) => {
+  const [addModal, setAddModal] = useState(false);
   return (
     <>
       <div
-        onClick={printClick}
+        onClick={() => setAddModal(true)}
         style={{
-          position: "absolute",
+          //position: "absolute",
           fontSize: 22,
           backgroundColor: "coral",
           marginLeft: 10,
           borderRadius: 8,
+          cursor: "pointer",
         }}
       >
-        Add
+        Dodaj vozilo
       </div>
+      <AddModal
+        isOpen={addModal}
+        setIsOpen={setAddModal}
+        addData={expandData}
+      />
     </>
   );
 };

@@ -1,11 +1,21 @@
 .modal_main {
   background-color: rgba(169, 169, 169, 0.8);
+  user-select: none;
 }
 
 .modal_container {
   /* display: flex; */
   box-sizing: border-box;
   width: 600px;
+  position: relative;
+  z-index: 20;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+.modal_container_add {
+  /* display: flex; */
+  box-sizing: border-box;
+  /* width: 600px; */
   position: relative;
   z-index: 20;
   border: 2px solid black;
@@ -38,17 +48,18 @@
   right: 0;
   margin-top: 5px;
   margin-right: 5px;
+  cursor: pointer;
 }
 .modal_dialog {
-  height: 200px;
+  /* height: 200px; */
   background-color: white;
 }
 .modal_dialog_delete {
-  height: 100px;
+  /* height: 100px; */
   background-color: white;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 .modal_dialog_delete_text {
   font-size: 20px;
@@ -74,6 +85,8 @@
 }
 .input_style {
   margin-left: 5px;
+  margin-right: 80px;
+  font-size: 16px;
 }
 
 .modal_footer {
@@ -100,6 +113,7 @@
   font-weight: 600;
   border: 1px solid black;
   background-color: rgba(247, 0, 0, 0.74);
+  cursor: pointer;
 }
 
 .modal_footer_save {
@@ -114,6 +128,7 @@
   font-weight: 600;
   border: 1px solid black;
   background-color: rgba(144, 238, 144, 0.425);
+  cursor: pointer;
 }
 
 .modal_footer_cancel {
@@ -127,4 +142,40 @@
   margin-right: 10px;
   font-weight: 600;
   border: 1px solid black;
+  cursor: pointer;
+}
+.modal_footer_add {
+  width: 100px;
+  height: 50px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  font-weight: 600;
+  border: 1px solid black;
+  background-color: rgba(54, 169, 219, 0.425);
+  cursor: pointer;
+}
+.form_style {
+  display: flex;
+  flex-direction: column;
+}
+
+.form_row {
+  padding: 5px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 90px;
+}
+
+.validation_error {
+  color: red;
+  font-size: 14px;
+}
+
+.form_error_row {
+  padding: 10px;
 }

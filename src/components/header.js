@@ -1,10 +1,10 @@
 import React from "react";
 
-const Header = ({ child }) => {
+const Header = () => {
   return (
     <>
       <div>
-        <div>{child}</div>
+        <div></div>
         <div
           style={{
             textAlign: "center",

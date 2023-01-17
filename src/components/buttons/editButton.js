@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import EditModal from "../modals/editModal";
 
-const EditButton = ({ value }) => {
+const EditButton = ({ value, editAction }) => {
   const [editModal, setEditModal] = useState(false);
 
   return (
@@ -16,6 +16,7 @@ const EditButton = ({ value }) => {
           borderRadius: 8,
           paddingLeft: 5,
           paddingRight: 5,
+          cursor: "pointer",
         }}
       >
         Izmijeni
@@ -24,6 +25,7 @@ const EditButton = ({ value }) => {
         isOpen={editModal}
         setIsOpen={setEditModal}
         item={value}
+        editAction={editAction}
       ></EditModal>
     </>
   );
