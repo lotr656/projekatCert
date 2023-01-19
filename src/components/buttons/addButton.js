@@ -8,7 +8,6 @@ const AddButton = ({ expandData }) => {
       <div
         onClick={() => setAddModal(true)}
         style={{
-          //position: "absolute",
           fontSize: 22,
           backgroundColor: "coral",
           marginLeft: 10,

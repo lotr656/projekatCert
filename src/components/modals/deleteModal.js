@@ -1,18 +1,12 @@
-// import React, { useState } from "react";
-
 const DeleteModal = ({ isOpen, setIsOpen, item, deleteAction }) => {
-  //const [markaVozila] = useState(item.markaVozila);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     deleteAction(item.id);
-    //alert(`Vozilo ${markaVozila} je uspjesno obrisano iz baze`);
     setIsOpen(false);
   };
 
   const cancelAction = () => {
     setIsOpen(false);
-    console.log("cancel");
   };
   if (isOpen) {
     return (
