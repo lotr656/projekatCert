@@ -3,43 +3,71 @@ import React, { useState } from "react";
 import "../../styles/modal_basic.css";
 
 const AddModal = ({ isOpen, setIsOpen, addData }) => {
-  //const [markaVozila] = useState(item.markaVozila);
-
-  const [markaVozila, setMarkaVozila] = useState();
-  const [model, setModel] = useState();
-  const [godiste, setGodiste] = useState();
-  const [registracijskaOznaka, setRegistracijskaOznaka] = useState();
-  const [registracijaVaziDo, setRegistracijaVaziDo] = useState();
-  const [boja, setBoja] = useState();
+  const [markaVozila, setMarkaVozila] = useState(undefined);
+  const [model, setModel] = useState(undefined);
+  const [godiste, setGodiste] = useState(undefined);
+  const [registracijskaOznaka, setRegistracijskaOznaka] = useState(undefined);
+  const [registracijaVaziDo, setRegistracijaVaziDo] = useState(undefined);
+  const [boja, setBoja] = useState(undefined);
 
   const resetForm = () => {
-    setGodiste();
-    setMarkaVozila();
-    setModel();
-    setRegistracijskaOznaka();
-    setRegistracijaVaziDo();
-    setBoja();
+    setGodiste(undefined);
+    setMarkaVozila(undefined);
+    setModel(undefined);
+    setRegistracijskaOznaka(undefined);
+    setRegistracijaVaziDo(undefined);
+    setBoja(undefined);
+    setFireErrorMarka(false);
+    setFireErrorModel(false);
+  };
+
+  let submitCheck = true;
+
+  const [fireErrorMarka, setFireErrorMarka] = useState(false);
+  const [fireErrorModel, setFireErrorModel] = useState(false);
+
+  const validationCheck = () => {
+    if (!markaVozila || markaVozila.length === 0) {
+      submitCheck = false;
+    } else if (!model || model.length === 0) {
+      submitCheck = false;
+    }
+
+    if (!markaVozila || markaVozila.length === 0) {
+      setFireErrorMarka(true);
+    }
+    if (!model || model.length === 0) {
+      setFireErrorModel(true);
+    }
   };
 
   const handleSubmit = (event) => {
+    setFireErrorMarka(false);
+    setFireErrorModel(false);
     event.preventDefault();
-    addData(
-      godiste,
-      markaVozila,
-      model,
-      registracijskaOznaka,
-      registracijaVaziDo,
-      boja
-    );
-    alert(`Vozilo uspjesno dodano u bazu`);
-    setIsOpen(false);
-    resetForm();
+    validationCheck();
+    if (submitCheck) {
+      addData(
+        godiste,
+        markaVozila,
+        model,
+        registracijskaOznaka,
+        registracijaVaziDo,
+        boja
+      );
+      alert(`Vozilo uspjesno dodano u bazu`);
+      setIsOpen(false);
+      resetForm();
+    } else {
+      alert("Podaci nisu validni");
+    }
   };
 
   const cancelAction = () => {
+    resetForm();
     setIsOpen(false);
-    console.log("cancel");
   };
+
   if (isOpen) {
     return (
       <div
@@ -71,16 +99,27 @@ const AddModal = ({ isOpen, setIsOpen, addData }) => {
                   <div className="form_row">
                     <label>Marka vozila:</label>
                     <input
-                      className="input_style "
+                      name="marka"
+                      className="input_style"
                       type="text"
                       placeholder="Audi, BMW..."
-                      value={markaVozila}
-                      onChange={(e) => setMarkaVozila(e.target.value)}
+                      value={markaVozila ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setMarkaVozila(e.target.value);
+                        }
+                      }}
                     />
                   </div>
-                  <span className="validation_error">
-                    Ovo polje je obavezno!
-                  </span>
+                  {markaVozila?.length === 0 ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : fireErrorMarka ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : null}
                 </div>
                 <div className="form_error_row">
                   <div className="form_row">
@@ -89,10 +128,23 @@ const AddModal = ({ isOpen, setIsOpen, addData }) => {
                       className="input_style"
                       type="text"
                       placeholder="A4, Golf, F10..."
-                      value={model}
-                      onChange={(e) => setModel(e.target.value)}
+                      value={model ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setModel(e.target.value);
+                        }
+                      }}
                     />
                   </div>
+                  {model?.length === 0 ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : fireErrorModel ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : null}
                 </div>
                 <div className="form_error_row">
                   <div className="form_row">
@@ -101,8 +153,12 @@ const AddModal = ({ isOpen, setIsOpen, addData }) => {
                       className="input_style"
                       type="number"
                       placeholder="Godina proizvodnje"
-                      value={godiste}
-                      onChange={(e) => setGodiste(e.target.value)}
+                      value={godiste ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setGodiste(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -113,8 +169,12 @@ const AddModal = ({ isOpen, setIsOpen, addData }) => {
                       className="input_style"
                       type="text"
                       placeholder="U formatu A00-A-000"
-                      value={registracijskaOznaka}
-                      onChange={(e) => setRegistracijskaOznaka(e.target.value)}
+                      value={registracijskaOznaka ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setRegistracijskaOznaka(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -125,8 +185,12 @@ const AddModal = ({ isOpen, setIsOpen, addData }) => {
                       className="input_style"
                       type="text"
                       placeholder="U formatu 01-Januar-2000"
-                      value={registracijaVaziDo}
-                      onChange={(e) => setRegistracijaVaziDo(e.target.value)}
+                      value={registracijaVaziDo ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setRegistracijaVaziDo(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -137,8 +201,12 @@ const AddModal = ({ isOpen, setIsOpen, addData }) => {
                       className="input_style"
                       type="text"
                       placeholder="Crna, Plava, Siva..."
-                      value={boja}
-                      onChange={(e) => setBoja(e.target.value)}
+                      value={boja ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setBoja(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>

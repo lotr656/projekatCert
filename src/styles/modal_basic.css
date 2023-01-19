@@ -35,6 +35,7 @@
 }
 .modal_header_title {
   font-size: 22px;
+  font-weight: bold;
 }
 .modal_header_close {
   font-size: 22px;
@@ -169,11 +170,13 @@
   display: flex;
   justify-content: space-between;
   margin-left: 90px;
+  font-weight: bold;
 }
 
 .validation_error {
   color: red;
   font-size: 14px;
+  font-weight: bold;
 }
 
 .form_error_row {

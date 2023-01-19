@@ -21,6 +21,26 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
   );
   const [boja, setBoja] = useState(item.boja);
 
+  let submitCheck = true;
+
+  const [fireErrorMarka, setFireErrorMarka] = useState(false);
+  const [fireErrorModel, setFireErrorModel] = useState(false);
+
+  const validationCheck = () => {
+    if (!markaVozila || markaVozila.length === 0) {
+      submitCheck = false;
+    } else if (!model || model.length === 0) {
+      submitCheck = false;
+    }
+
+    if (!markaVozila || markaVozila.length === 0) {
+      setFireErrorMarka(true);
+    }
+    if (!model || model.length === 0) {
+      setFireErrorModel(true);
+    }
+  };
+
   const revertChanges = () => {
     setMarkaVozila(oldMarkaVozila);
     setModel(oldModel);
@@ -33,20 +53,26 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
   const cancelAction = () => {
     revertChanges();
     setIsOpen(false);
-    console.log("cancel");
   };
   const handleSubmit = (event) => {
+    setFireErrorMarka(false);
+    setFireErrorModel(false);
     event.preventDefault();
-    editAction(
-      item.id,
-      godiste,
-      markaVozila,
-      model,
-      registracijskaOznaka,
-      registracijaVaziDo,
-      boja
-    );
-    alert(`Podaci uspjesno izmijenjeni za vozilo: ${markaVozila}`);
+    validationCheck();
+    if (submitCheck) {
+      editAction(
+        item.id,
+        godiste,
+        markaVozila,
+        model,
+        registracijskaOznaka,
+        registracijaVaziDo,
+        boja
+      );
+      alert(`Podaci uspjesno izmijenjeni za vozilo: ${markaVozila}`);
+    } else {
+      alert("Podaci nisu validni");
+    }
   };
   if (isOpen) {
     return (
@@ -83,10 +109,24 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
-                      value={markaVozila}
-                      onChange={(e) => setMarkaVozila(e.target.value)}
+                      placeholder="Audi, BMW..."
+                      value={markaVozila ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setMarkaVozila(e.target.value);
+                        }
+                      }}
                     />
                   </div>
+                  {markaVozila.length === 0 ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : fireErrorMarka ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : null}
                 </div>
                 <div className="form_error_row">
                   <div className="form_row">
@@ -94,10 +134,24 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
-                      value={model}
-                      onChange={(e) => setModel(e.target.value)}
+                      placeholder="A4, Golf, F10..."
+                      value={model ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setModel(e.target.value);
+                        }
+                      }}
                     />
                   </div>
+                  {model.length === 0 ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : fireErrorModel ? (
+                    <span className="validation_error">
+                      Ovo polje je obavezno!
+                    </span>
+                  ) : null}
                 </div>
                 <div className="form_error_row">
                   <div className="form_row">
@@ -105,8 +159,13 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="number"
-                      value={godiste}
-                      onChange={(e) => setGodiste(e.target.value)}
+                      placeholder="Godina proizvodnje"
+                      value={godiste ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setGodiste(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -116,8 +175,13 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
-                      value={registracijskaOznaka}
-                      onChange={(e) => setRegistracijskaOznaka(e.target.value)}
+                      placeholder="U formatu A00-A-000"
+                      value={registracijskaOznaka ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setRegistracijskaOznaka(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -127,8 +191,13 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
-                      value={registracijaVaziDo}
-                      onChange={(e) => setRegistracijaVaziDo(e.target.value)}
+                      placeholder="U formatu 01-Januar-2000"
+                      value={registracijaVaziDo ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setRegistracijaVaziDo(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -138,8 +207,13 @@ const EditModal = ({ isOpen, setIsOpen, item, editAction }) => {
                     <input
                       className="input_style"
                       type="text"
-                      value={boja}
-                      onChange={(e) => setBoja(e.target.value)}
+                      placeholder="Crna, Plava, Siva..."
+                      value={boja ?? ""}
+                      onChange={(e) => {
+                        if (e.target.value !== " ") {
+                          setBoja(e.target.value);
+                        }
+                      }}
                     />
                   </div>
                 </div>
